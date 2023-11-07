@@ -9,12 +9,12 @@ export default async function formatImage(fields, file){
 
     const metadata = await img.metadata();
 
-    const width = metadata.width * fields.size / 100;
-    const height = metadata.height * fields.size /100;
+    const width = Math.round(metadata.width * fields.size / 100);
+    const height = Math.round(metadata.height * fields.size /100);
 
     img
-        .resize({width: width, height: height})
-        .webp({quality: 70, effort:6});
+        .webp({quality: 70, effort:6})
+        .resize({width: width, height: height});
 
     await img.toFile('./server_modules/enhanced.webp');
 
