@@ -11,9 +11,9 @@ app.use(formidable());
 app.post('/formatting', (req, res) => {
     
     req.fields.size = parseInt(req.fields.size);
-    formatImage(req.fields, req.files);
+    let ans = formatImage(req.fields, req.files);
 
-    res.send({ status: 'ok' });
+    res.send(ans);
 })
 
 app.listen(PORT, () => {

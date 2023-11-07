@@ -1,23 +1,22 @@
 import sharp from 'sharp'
 import fs from 'fs'
 
+export default async function formatImage(fields, file){
 
-export default async function formatImage(fields, image){
+    const imageBuffer = fs.readFileSync(file.image.path);
 
-    const promise = fs.promises.readFile('./server_modules/taylor-swift-eras-moments.webp');
+    var img = sharp(imageBuffer);
 
-    var buf = Buffer.from(JSON.stringify(image));
+    const metadata = await img.metadata();
 
-    var imageBuffer = await Promise.resolve(promise).then(function(buffer){
-        return buffer;
-    });
+    const width = metadata.width * fields.size / 100;
+    const height = metadata.height * fields.size /100;
 
-    //console.log(imageBuffer);
-    
-    const img = sharp(imageBuffer).webp({quality: 70, effort:6});
+    img
+        .resize({width: width, height: height})
+        .webp({quality: 70, effort:6});
 
+    await img.toFile('./server_modules/enhanced.webp');
 
-    fs.writeFile('./server_modules/enhancedpepe.webp',await img.toBuffer(), 'binary', function(err){})
-    
     return img;
 }
