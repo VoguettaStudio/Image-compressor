@@ -16,7 +16,5 @@ export default async function formatImage(fields, file){
         .webp({quality: 70, effort:6})
         .resize({width: width, height: height});
 
-    await img.toFile('./server_modules/enhanced.webp');
-
     return img;
 }
