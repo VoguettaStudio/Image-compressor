@@ -10,19 +10,27 @@ import convertVideo from './server_modules/converting.js';
 app.use(formidable());
 
 app.post('/formatting', async (req, res) => {
-    req.fields.size = parseInt(req.fields.size);
+    try {
+        req.fields.size = parseInt(req.fields.size);
     
-    res.type('image/webp');
-    res.header('Content-Disposition', 'inline; filename=output.webp');
+        let fileOutputName = req.files.image.name.replace(/\.[^.]+$/, '')+"."+req.fields.format;
 
-    res.send(await formatImage(req.fields, req.files));
+        res.type('image/webp');
+        res.header('Content-Disposition', `inline; filename="${fileOutputName}"`);
+
+        res.send(await formatImage(req.fields, req.files));
+    } catch(e){
+        res.status(500).send(error.message);
+    }
 });
 
 app.post('/converting', async (req, res) => {
     try {
-        
+
+        let fileOutputName = req.files.video.name.replace(/\.[^.]+$/, '')+".webm"
+    
         res.header('Content-Type', 'video/webm');
-        res.header('Content-Disposition', 'inline; filename=output.webm');
+        res.header('Content-Disposition', `inline; filename="${fileOutputName}"`);
 
         const convertedVideo = await convertVideo(req.files, res);
         res.end(convertedVideo);
