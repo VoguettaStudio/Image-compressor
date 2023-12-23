@@ -17,7 +17,7 @@ Receives a video file and returns it converted to the webm format.
 - **Method:** POST
 - **Headers:** None
 - **Body:**
-  - **File:** Video file to be converted (Supported formats: mp4, mkv, etc.)
+- **File:** Video file to be converted (Supported formats: mp4, mkv, etc.)
 
 #### Response
 - **Content Type:** video/webm
@@ -63,10 +63,10 @@ To run the microservice, follow these steps:
 3. The server will be running at `http://localhost:3000`.
 
 ## Dependencies
--`Express`: Fast, unopinionated, minimalist web framework for Node.js.
--`express-formidable`: A middleware for handling forms with file uploads in Express.
--`fluent-ffmpeg`: A fluent API to FFMPEG for Node.js.
--`sharp`: High-performance image processing library for Node.js.
+- `Express`: Fast, unopinionated, minimalist web framework for Node.js.
+- `express-formidable`: A middleware for handling forms with file uploads in Express.
+- `fluent-ffmpeg`: A fluent API to FFMPEG for Node.js.
+- `sharp`: High-performance image processing library for Node.js.
 
 ## Code Structure
 The server code is organized as follows:
