@@ -71,6 +71,6 @@ To run the microservice, follow these steps:
 ## Code Structure
 The server code is organized as follows:
 
-server_modules/converting.js: Module for converting video files to webm format.
-server_modules/formating.js: Module for formatting image files based on size and format.
+- server_modules/converting.js: Module for converting video files to webm format.
+- server_modules/formating.js: Module for formatting image files based on size and format.
 
