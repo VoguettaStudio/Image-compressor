@@ -1,30 +1,25 @@
-import ffmpeg from 'fluent-ffmpeg'
+import ffmpeg from "fluent-ffmpeg";
 
-export default function convertVideo(file, res){
+export default function convertVideo(file, res) {
+  return new Promise((resolve, reject) => {
+    const command = ffmpeg().input(file.video.path);
 
-    return new Promise((resolve, reject) => {
+    command.format("mp4").videoCodec("libx265");
 
-        const command = ffmpeg()
-            .input(file.video.path);
+    const buffers = [];
+    command.on("data", (data) => {
+      buffers.push(data);
+    });
 
-        command
-            .format('webm')
-            .videoCodec('libvpx-vp9')
+    command.on("error", (err) => {
+      reject(err);
+    });
 
-        const buffers = [];
-        command.on('data', (data) => {
-            buffers.push(data);
-        });
-            
-        command.on('error', (err) => {
-            reject(err);
-        });
-      
-        command.on('end', () => {
-            const convertedBuffer = Buffer.concat(buffers);
-            resolve(convertedBuffer);
-        });
-    
-        command.pipe(res, { end: true });
-    })
-};
+    command.on("end", () => {
+      const convertedBuffer = Buffer.concat(buffers);
+      resolve(convertedBuffer);
+    });
+
+    command.pipe(res, { end: true });
+  });
+}
