@@ -1,18 +1,45 @@
-import sharp from 'sharp'
-import fs from 'fs'
+import sharp from "sharp";
+import fs from "fs";
 
-export default async function formatImage(fields, file){
+export default async function formatImage(fields, file) {
+  const imageBuffer = fs.readFileSync(file.image.path);
+  var img = sharp(imageBuffer);
 
-    const imageBuffer = fs.readFileSync(file.image.path);
-    var img = sharp(imageBuffer);
+  const metadata = await img.metadata();
+  const width = metadata.width;
+  const height = metadata.height;
+  var newWidth;
+  var newHeight;
 
-    const metadata = await img.metadata();
-    const width = Math.round(metadata.width * fields.size / 100);
-    const height = Math.round(metadata.height * fields.size /100);
+  const largerDimension = width > height ? "width" : "height";
 
-    img
-        .webp({quality: 70, effort:6})
-        .resize({width: width, height: height});
+  console.log(width);
+  console.log(height);
+  console.log(JSON.stringify(fields));
+  console.log(largerDimension);
 
-    return await img.toBuffer();
+  // Check if the larger dimension exceeds maxSize
+  if (
+    (largerDimension === "width" && metadata.width > fields.maxSize) ||
+    (largerDimension === "height" && metadata.height > fields.maxSize)
+  ) {
+    if (largerDimension === "width") {
+      // Set width to maxSize and adjust height to maintain aspect ratio
+      newHeight = Math.round((height / width) * fields.maxSize);
+      newWidth = fields.maxSize;
+    } else {
+      // Set height to maxSize and adjust width to maintain aspect ratio
+      newWidth = Math.round((width / height) * fields.maxSize);
+      newHeight = fields.maxSize;
+    }
+  }
+
+  console.log(newWidth);
+  console.log(newHeight);
+
+  img
+    .webp({ quality: 70, effort: 6 })
+    .resize({ width: newWidth, height: newHeight });
+
+  return await img.toBuffer();
 }
