@@ -1,10 +1,14 @@
-const PORT = 3002;
+const PORT = 3000;
 import express from "express";
 const app = express();
 import cors from "cors";
 import formidable from "express-formidable";
 import formatImage from "./server_modules/formating.js";
-import convertVideo from "./server_modules/converting.js";
+//import compressMp4 from "./server_modules/compressMp4.js";
+
+import ffmpeg from 'fluent-ffmpeg';
+import compressMp4 from "./server_modules/compressMp4.js";
+
 
 app.use(formidable());
 
@@ -20,8 +24,7 @@ app.post("/compressImage", async (req, res) => {
     // req.fields.size = parseInt(req.fields.size);
     req.fields.maxSize = parseInt(req.fields.maxSize);
 
-    let fileOutputName =
-      req.files.image.name.replace(/\.[^.]+$/, "") + "." + req.fields.format;
+    let fileOutputName = req.files.image.name.replace(/\.[^.]+$/, "") + "." + req.fields.format;
 
     res.type("image/webp");
     res.header("Content-Disposition", `inline; filename="${fileOutputName}"`);
@@ -32,18 +35,22 @@ app.post("/compressImage", async (req, res) => {
   }
 });
 
-app.post("/convertVideo", async (req, res) => {
-  try {
-    let fileOutputName = req.files.video.name.replace(/\.[^.]+$/, "") + ".mp4";
+app.post("/compressMp4ToMp4", async (req, res) => {
 
-    res.header("Content-Type", "video/mp4");
-    res.header("Content-Disposition", `inline; filename="${fileOutputName}"`);
+    try {
 
-    const convertedVideo = await convertVideo(req.files, res);
-    res.end(convertedVideo);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+        let fileOutputName = req.files.video.name.replace(/\.[^.]+$/, "") + ".mp4";
+
+        res.header("Content-Type", "video/mp4");
+        res.header("Content-Disposition", `inline; filename="${fileOutputName}"`);
+
+        await compressMp4(req, res);
+    
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Internal Server Error');
+    }
+
 });
 
 app.listen(PORT, () => {
