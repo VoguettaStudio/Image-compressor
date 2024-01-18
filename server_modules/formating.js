@@ -13,11 +13,6 @@ export default async function formatImage(fields, file) {
 
   const largerDimension = width > height ? "width" : "height";
 
-  console.log(width);
-  console.log(height);
-  console.log(JSON.stringify(fields));
-  console.log(largerDimension);
-
   // Check if the larger dimension exceeds maxSize
   if (
     (largerDimension === "width" && metadata.width > fields.maxSize) ||
@@ -33,9 +28,6 @@ export default async function formatImage(fields, file) {
       newHeight = fields.maxSize;
     }
   }
-
-  console.log(newWidth);
-  console.log(newHeight);
 
   img
     .webp({ quality: 70, effort: 6 })

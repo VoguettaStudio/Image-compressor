@@ -4,9 +4,7 @@ const app = express();
 import cors from "cors";
 import formidable from "express-formidable";
 import formatImage from "./server_modules/formating.js";
-//import compressMp4 from "./server_modules/compressMp4.js";
 
-import ffmpeg from 'fluent-ffmpeg';
 import compressMp4 from "./server_modules/compressMp4.js";
 
 
@@ -21,10 +19,9 @@ app.use(cors(corsOptions));
 
 app.post("/compressImage", async (req, res) => {
   try {
-    // req.fields.size = parseInt(req.fields.size);
     req.fields.maxSize = parseInt(req.fields.maxSize);
 
-    let fileOutputName = req.files.image.name.replace(/\.[^.]+$/, "") + "." + req.fields.format;
+    let fileOutputName = req.files.image.name.replace(/\.[^.]+$/, "") + "." + "webp";
 
     res.type("image/webp");
     res.header("Content-Disposition", `inline; filename="${fileOutputName}"`);
