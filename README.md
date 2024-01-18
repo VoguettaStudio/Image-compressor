@@ -12,7 +12,7 @@ This microservice API provides two endpoints for video and image processing.
 
 #### Description
 
-Receives a video file and returns it converted and compressed to the mp4 format.
+Receives a video file and returns it converted and/or compressed to the mp4 format.
 
 #### Request
 
