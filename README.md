@@ -12,18 +12,20 @@ This microservice API provides two endpoints for video and image processing.
 
 #### Description
 
-Receives a video file and returns it converted and/or compressed to the mp4 format.
+Receives a video file and returns it converted and/or compressed in mp4 format.
 
 #### Request
 
 - **Method:** POST
 - **Headers:** None
 - **Body:**
-  - **File:** Video file to be converted (Supported formats: mp4, gif, etc.)
+  - **video:** Video file to be converted (Supported formats: mp4, gif, etc.)
 
 #### Response
 
 - **Content Type:** video/mp4
+- **Headers:**
+  - `Content-Disposition`: inline; filename="<output_filename>"
 - **Body:** Converted/compressed video in mp4 format
 
 ### 2. Formatting Endpoint
@@ -34,17 +36,14 @@ Receives a video file and returns it converted and/or compressed to the mp4 form
 
 #### Description
 
-Receives an image file, size (integer), and format, and returns the image in the specified format and size.
+Receives an image file and returns it compressed in webp format.
 
 #### Request
 
 - **Method:** POST
 - **Headers:** None
 - **Body:**
-  - **File:** Image file to be formatted (Supported formats: jpeg, png, etc.)
-  - **Fields:**
-    - `size`: Integer representing the desired size.
-    - `format`: String representing the desired format (e.g., "jpeg", "png").
+  - **image:** Image file to be formatted (Supported formats: jpeg, png, etc.)
 
 #### Response
 
@@ -84,5 +83,5 @@ To run the microservice, follow these steps:
 
 The server code is organized as follows:
 
-- server_modules/converting.js: Module for converting video files to webm format.
-- server_modules/formating.js: Module for formatting image files based on size and format.
+- server_modules/compressMp4.js: Module for converting/compressing video files to mp4 format.
+- server_modules/formatting.js: Module for compressing and formatting image files to webp format.
