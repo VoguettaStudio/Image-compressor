@@ -4,27 +4,27 @@ This microservice API provides two endpoints for video and image processing.
 
 ## Endpoints
 
-### 1. Converting Endpoint
+### 1. Converting/Compressing endpoint
 
 #### Endpoint URL
 
-`/convertVideo`
+`/compressMp4ToMp4`
 
 #### Description
 
-Receives a video file and returns it converted to the webm format.
+Receives a video file and returns it converted and/or compressed to the mp4 format.
 
 #### Request
 
 - **Method:** POST
 - **Headers:** None
 - **Body:**
-- **File:** Video file to be converted (Supported formats: mp4, mkv, etc.)
+  - **File:** Video file to be converted (Supported formats: mp4, gif, etc.)
 
 #### Response
 
-- **Content Type:** video/webm
-- **Body:** Converted video in webm format
+- **Content Type:** video/mp4
+- **Body:** Converted/compressed video in mp4 format
 
 ### 2. Formatting Endpoint
 
