@@ -3,7 +3,7 @@ import express from "express";
 const app = express();
 import cors from "cors";
 import formidable from "express-formidable";
-import formatImage from "./server_modules/formating.js";
+import formatImage from "./server_modules/formatting.js";
 
 import compressMp4 from "./server_modules/compressMp4.js";
 
